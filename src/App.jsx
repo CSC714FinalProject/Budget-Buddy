@@ -16,7 +16,7 @@ function App() {
   let element = useRoutes([
     {
       path:"/",
-      element: <Navigate to = "/signup" />
+      element: <Navigate to = "/login" />
     },
     {
       path:"/signup",
