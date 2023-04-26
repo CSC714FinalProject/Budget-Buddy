@@ -1,7 +1,185 @@
 .signup-page {
-    text-align: center;
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+    
+        background: linear-gradient(243.18deg, #33FF00 0%, #2B8A13 100%);
 }
 
-.user-signup-field {
-    margin-bottom: 10px;
+.logo {
+    position: absolute;
+    width: 526px;
+    height: 352px;
+    left: 109px;
+    top: 336px;
+}
+
+.signup-box {
+    position: absolute;
+    width: 488px;
+    height: 803px;
+    left: 846px;
+    top: 106px;
+
+    background: #FFFDD0;
+}
+
+.signup-text {
+    position: absolute;
+    width: 191px;
+    height: 58px;
+    left: 148px;
+    top: 0px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 58px;
+
+    color: #000000;
+
+}
+
+.signup-email-icon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 99px;
+    top: 115px;
+}
+
+.email-signup-field {
+    position: absolute;
+    width: 215px;
+    height: 51px;
+    left: 136px;
+    top: 124px;
+}
+
+.signup-name-icon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 99px;
+    top: 190px;
+}
+
+.first-name-field {
+    position: absolute;
+    width: 215px;
+    height: 51px;
+    left: 136px;
+    top: 200px;
+}
+
+.last-name-field {
+    position: absolute;
+    width: 215px;
+    height: 51px;
+    left: 136px;
+    top: 270px;
+}
+
+.signup-user-icon {
+    position: absolute;
+    width: 30px;
+    height: 33.19px;
+    left: 99px;
+    top: 335px;
+}
+
+.username-signup-field {
+    position: absolute;
+    width: 215px;
+    height: 51px;
+    left: 136px;
+    top: 347px;
+}
+
+.signup-password-icon {
+    position: absolute;
+    left: 99px;
+    top: 415px;
+}
+
+.password-signup-field {
+    position: absolute;
+    width: 215px;
+    height: 51px;
+    left: 136px;
+    top: 425px;
+}
+
+.cpassword-signup-field {
+    position: absolute;
+    width: 215px;
+    height: 51px;
+    left: 136px;
+    top: 498px;
+}
+
+.signup-button {
+    position: absolute;
+    width: 215px;
+    height: 44px;
+    left: 136px;
+    top: 570px;
+
+    background: #38CA14;
+    border-radius: 23px;
+}
+
+.signup-options {
+    position: absolute;
+    width: 140px;
+    height: 24px;
+    left: 180px;
+    top: 610px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #000000;
+}
+
+.google-signup {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 136px;
+    top: 665px;
+}
+
+.apple-signup {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 219px;
+    top: 665px;
+}
+
+.twitter-signup {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 300px;
+    top: 665px;
+}
+
+.goto-login-text {
+    position: absolute;
+    width: 300px;
+    height: 15px;
+    left: 100px;
+    top: 733px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 15px;
 }
