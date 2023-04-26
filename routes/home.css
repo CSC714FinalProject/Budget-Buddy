@@ -1,0 +1,61 @@
+body {
+    background: linear-gradient(243.18deg, #33FF00 0%, #2B8A13 100%);
+}
+
+
+
+.home-title {
+    text-align: center;
+}
+
+.transactions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.transaction-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.transaction-item {
+    height: 100px;
+    width: 500px;
+    background-color: rgb(20, 158, 202);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.add-transaction-button {
+    height: 100px;
+    width: 500px;
+    background-color: rgb(20, 158, 202);
+    margin-bottom: 15px;
+}
+
+.add-transaction-button:hover {
+    cursor: pointer;
+}
+
+.transaction-amount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.transaction-name {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+
+
+
+
+
+

@@ -60,19 +60,23 @@ function Home() {
       return (
         <div className="Home-page">
     
-          <h1>Budget Buddy</h1>
-          {user && user.email}
+          <h1 className = "home-title">Budget Buddy</h1>
+          <p className = "welcome">{user && user.email}</p>
 
-          <button onClick = {() => setShowPopup(true)}>Add Transaction</button>
-          {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
+          <div className = "transactions">
 
-          <ul>
-            {transactions.map((transaction, index) => (
-              <li key = {index}>{transaction.name}: ${transaction.amount}</li>
-            ))}
-          </ul>
+            <button className = "add-transaction-button" onClick = {() => setShowPopup(true)}>Add Transaction</button>
+            {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
+
+            <ul className = "transaction-list">
+              {transactions.map((transaction, index) => (
+                <li className = "transaction-item" key = {index}><span className = "transaction-name">{transaction.name}</span> <span className = "transaction-amount">${transaction.amount}</span></li>
+              ))}
+            </ul>
+
+          </div>
         
-          <Link to = "/login"><button onClick = {logout}>Sign Out</button></Link>
+          <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
         </div>
       )
 
