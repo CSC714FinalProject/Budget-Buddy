@@ -51,12 +51,7 @@ function Home() {
         userId
       });
     }
-
-
-
-
-
-
+    
       return (
         <div className="Home-page">
     
