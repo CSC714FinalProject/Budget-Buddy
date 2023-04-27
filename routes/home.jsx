@@ -13,6 +13,9 @@ function Home() {
     const [showPopup, setShowPopup] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [numTransactions, setNumTransactions] = useState(0);
+    const [userTransactions, setUserTransactions] = useState([]);
+    const tr = [];
+
 
     useEffect(() => {
         const stateChange = onAuthStateChanged(auth, (currentUser) => {
@@ -28,7 +31,14 @@ function Home() {
         const querySnapshot = await getDocs(transactionsCollection);
         const transactionsData = querySnapshot.docs.map(doc => doc.data());
         console.log("being used");
+
         setTransactions(transactionsData);
+        for(let i = 0; i < transactions.length; i++) {
+          if(transactions[i].userId == user.uid) {
+            tr[i] = transactions[i];
+          }
+        }
+        setUserTransactions(tr);
 
       }
       fetchTransactions();
@@ -68,7 +78,8 @@ function Home() {
             {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
 
             <ul className = "transaction-list">
-              {transactions.map((transaction, index) => (
+              {userTransactions.map((transaction, index) => ( 
+                
                 <li className = "transaction-item" key = {index}><span className = "transaction-name">{transaction.name}</span> <span className = "transaction-amount">${transaction.amount}</span></li>
               ))}
             </ul>
