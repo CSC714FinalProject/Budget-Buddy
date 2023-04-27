@@ -12,6 +12,7 @@ function Home() {
     const [user, setUser] = useState({});
     const [showPopup, setShowPopup] = useState(false);
     const [transactions, setTransactions] = useState([]);
+    const [numTransactions, setNumTransactions] = useState(0);
 
     useEffect(() => {
         const stateChange = onAuthStateChanged(auth, (currentUser) => {
@@ -26,12 +27,13 @@ function Home() {
         const transactionsCollection = collection(db, "transactions");
         const querySnapshot = await getDocs(transactionsCollection);
         const transactionsData = querySnapshot.docs.map(doc => doc.data());
+        console.log("being used");
         setTransactions(transactionsData);
 
       }
       fetchTransactions();
 
-    }, [transactions])
+    }, [numTransactions])
 
     const logout = async () => {
         await signOut(auth);
@@ -50,6 +52,8 @@ function Home() {
         amount,
         userId
       });
+
+      setNumTransactions((numTransactions) => numTransactions + 1);
     }
     
       return (
