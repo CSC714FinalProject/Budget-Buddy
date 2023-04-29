@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import './AddTransaction.css';
 
 
 
@@ -27,6 +27,7 @@ function AddTransaction(props) {
             </form>
             <button onClick = {props.onClose}>Cancel</button>
         </div>
+
     );
 }
 

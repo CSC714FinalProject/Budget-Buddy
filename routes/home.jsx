@@ -74,7 +74,7 @@ function Home() {
     
     
       return (
-        <div className="Home-page">
+        <div className={`${showPopup ? "blur" : "Home-page"}`}>
     
           <h1 className = "home-title">Budget Buddy</h1>
           <p className = "welcome">{user && user.email}</p>
@@ -82,7 +82,11 @@ function Home() {
           <div className = "transactions">
 
             <button className = "add-transaction-button" onClick = {() => setShowPopup(true)}>Add Transaction</button>
-            {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
+
+            <div className = "add-popup">
+              {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
+            </div>
+            
 
             <ul className = "transaction-list">
               {transactions.map((transaction, index) => ( 
