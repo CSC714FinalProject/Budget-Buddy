@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from 'react-router-dom';
 import { auth, db } from '../src/firebase';
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import './home.css';
 import AddTransaction from '../components/AddTransaction';
 
@@ -12,6 +12,9 @@ function Home() {
     const [user, setUser] = useState({});
     const [showPopup, setShowPopup] = useState(false);
     const [transactions, setTransactions] = useState([]);
+    const [numTransactions, setNumTransactions] = useState(0);
+    
+
 
     useEffect(() => {
         const stateChange = onAuthStateChanged(auth, (currentUser) => {
@@ -23,15 +26,29 @@ function Home() {
 
     useEffect(() => {
       const fetchTransactions = async () => {
+        const user = auth.currentUser;
+        const userId = user ? user.uid : null;
+
+        if (!userId) {
+          console.error("no user found");
+          return;
+        }
+
         const transactionsCollection = collection(db, "transactions");
-        const querySnapshot = await getDocs(transactionsCollection);
+        const userTransactions = query(transactionsCollection, where("userId", "==", userId))
+        const querySnapshot = await getDocs(userTransactions);
         const transactionsData = querySnapshot.docs.map(doc => doc.data());
+        console.log("being used");
+
         setTransactions(transactionsData);
+        
+        
+       
 
       }
       fetchTransactions();
 
-    }, [transactions])
+    }, [numTransactions])
 
     const logout = async () => {
         await signOut(auth);
@@ -50,13 +67,12 @@ function Home() {
         amount,
         userId
       });
+
+      setNumTransactions((numTransactions) => numTransactions + 1);
     }
 
-
-
-
-
-
+    
+    
       return (
         <div className="Home-page">
     
@@ -69,7 +85,8 @@ function Home() {
             {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
 
             <ul className = "transaction-list">
-              {transactions.map((transaction, index) => (
+              {transactions.map((transaction, index) => ( 
+                
                 <li className = "transaction-item" key = {index}><span className = "transaction-name">{transaction.name}</span> <span className = "transaction-amount">${transaction.amount}</span></li>
               ))}
             </ul>
