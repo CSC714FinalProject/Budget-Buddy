@@ -2,39 +2,114 @@ body {
     background: linear-gradient(243.18deg, #33FF00 0%, #2B8A13 100%);
 }
 
+li {
+    margin: 10px 0;
+}
 
+.navbar {
+    position: absolute;
+    width: 100vw;
+    height: 100px;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.47);
+}
 
-.home-title {
-    text-align: center;
+.home-button-img {
+    position: absolute;
+    width: 149.43px;
+    height: 100px;
+    left: 0px;
+    top: 0px;
+}
+
+.pie-button-img {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    left: 163px;
+    top: 9px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.calendar-button-img {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    left: 281px;
+    top: 9px;
+}
+
+.current-balance {
+    position: absolute;
+    width: 391px;
+    height: 39px;
+    left: 600px;
+    top: 15px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+.welcome {
+    position: absolute;
+    width: 261px;
+    height: 39px;
+    right: 150px;
+    top: 5px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+.sign-out-button {
+    position: absolute;
+    width: 100px;
+    height: 44px;
+    right: 50px;
+    top: 30px;
+
+    background: red;
+    border-radius: 23px;
 }
 
 .transactions {
     display: flex;
     flex-direction: column;
     align-items: center;
+    top: 135px
 }
-
 
 .transaction-list {
     margin: 0;
     padding: 0;
     list-style: none;
+    align-items: center;
 }
 
 .transaction-item {
-    height: 100px;
-    width: 500px;
-    background-color: rgb(20, 158, 202);
-    border-radius: 15px;
-    margin-bottom: 15px;
     position: relative;
+    width: 792px;
+    height: 98px;
+    top: 270px;
+    background: #149ECA;
+    border-radius: 23px;
 }
 
 .add-transaction-button {
-    height: 100px;
-    width: 500px;
-    background-color: rgb(20, 158, 202);
-    margin-bottom: 15px;
+    box-sizing: border-box;
+    position: absolute;
+    width: 792px;
+    height: 98px;
+    top: 135px;
+    background: #149ECA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
 }
 
 .add-transaction-button:hover {
@@ -51,6 +126,18 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
+}
+
+.transaction-category {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.transaction-date {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 

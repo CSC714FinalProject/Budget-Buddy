@@ -1,15 +1,12 @@
 .add-transaction-popup {
     position: fixed;
-    background-color: gray;
+    background-color: blue;
     padding: 20px;
     z-index: 1000;
     border-radius: 15px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-   
-  
-    
-
-
-
+    top: 100px;
+    left: 400px;
+    right: 400px;
 }
 

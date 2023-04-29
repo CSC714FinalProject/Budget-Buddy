@@ -5,14 +5,17 @@ import { auth, db } from '../src/firebase';
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import './home.css';
 import AddTransaction from '../components/AddTransaction';
+import {AiOutlinePieChart} from 'react-icons/ai'
 
 
 
 function Home() {
     const [user, setUser] = useState({});
+    const [username, setUsername] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [numTransactions, setNumTransactions] = useState(0);
+    const [total, setTotal] = useState(0);
     
 
 
@@ -22,7 +25,7 @@ function Home() {
         });
     
         return () => stateChange();
-      }, []);
+    }, []);
 
     useEffect(() => {
       const fetchTransactions = async () => {
@@ -35,26 +38,44 @@ function Home() {
         }
 
         const transactionsCollection = collection(db, "transactions");
-        const userTransactions = query(transactionsCollection, where("userId", "==", userId))
+        const userTransactions = query(transactionsCollection, where("userId", "==", userId));
         const querySnapshot = await getDocs(userTransactions);
         const transactionsData = querySnapshot.docs.map(doc => doc.data());
-        console.log("being used");
+        console.log("being used"); 
 
         setTransactions(transactionsData);
+        let x = 0;
+        for (let i = 0; i < transactions.length; i ++) {
+            x = x + parseInt(transactions[i].amount);
+        }
+        setTotal(x);
+        console.log(total);
         
-        
-       
-
       }
       fetchTransactions();
 
     }, [numTransactions])
 
+    useEffect(() => {
+        const getUsername = async () => {
+            const user = auth.currentUser;
+            const userId = user ? user.uid : null;
+            const userCollection = collection(db, "users");
+            const userLoggedIn = query(userCollection, where("userId", "==", userId));
+            const querySnapshot = await getDocs(userLoggedIn);
+            const userData = querySnapshot.docs.map(doc => doc.data());
+            setUsername(userData[0].username);
+        }
+        getUsername();
+        
+    }, [])
+
     const logout = async () => {
         await signOut(auth);
     
-      };
-    const handleAddTransaction = async (name, amount) => {
+    };
+
+    const handleAddTransaction = async (name, amount, transactionType, recurring, category, date) => {
       const user = auth.currentUser;
       const userId = user ? user.uid : null;
 
@@ -65,8 +86,13 @@ function Home() {
       await addDoc(collection(db, "transactions"), {
         name,
         amount,
+        transactionType,
+        recurring,
+        category, 
+        date,
         userId
       });
+      setShowPopup(false);
 
       setNumTransactions((numTransactions) => numTransactions + 1);
     }
@@ -74,10 +100,16 @@ function Home() {
     
     
       return (
+        <body>
         <div className={`${showPopup ? "blur" : "Home-page"}`}>
-    
-          <h1 className = "home-title">Budget Buddy</h1>
-          <p className = "welcome">{user && user.email}</p>
+            <div className="navbar">
+                <img  className = "home-button-img" src= "../images/BudgetBuddy-logos_transparent.png" alt="error"/>
+                <img className = "pie-button-img" src="../images/pie-chart.png"/>
+                <img className = "calendar-button-img" src="../images/calendar.png"/>
+                <h1 className = "current-balance">Current Balance: ${total}</h1>
+                <p className = "welcome">Welcome {username}</p>
+                <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
+            </div>
 
           <div className = "transactions">
 
@@ -91,14 +123,19 @@ function Home() {
             <ul className = "transaction-list">
               {transactions.map((transaction, index) => ( 
                 
-                <li className = "transaction-item" key = {index}><span className = "transaction-name">{transaction.name}</span> <span className = "transaction-amount">${transaction.amount}</span></li>
+                <li className = "transaction-item" key = {index}>
+                    <span className = "transaction-name">{transaction.name}</span> 
+                    <span className = "transaction-amount">${transaction.amount}</span>
+                    <span className = "transaction-category">Category: {transaction.category}</span> 
+                    <span className = "transaction-date">{transaction.date}</span> 
+                </li>
               ))}
             </ul>
 
           </div>
         
-          <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
         </div>
+        </body>
       )
 
 
