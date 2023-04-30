@@ -8,6 +8,7 @@ import { auth } from './firebase';
 import Home from '../routes/home';
 import Signup from '../routes/signup';
 import Login from '../routes/login';
+import Chart from '../routes/chart'
 
 
 
@@ -31,6 +32,11 @@ function App() {
     {
       path: "/home",
       element:<Home />
+    },
+
+    {
+      path: "/chart",
+      element: <Chart />
     }
   ]);
 
