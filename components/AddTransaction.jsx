@@ -24,13 +24,18 @@ function AddTransaction(props) {
 
     return (
         <div className = "add-transaction-popup">
-            <h3>Add New Transaction</h3>
-            <form onSubmit = {handleSubmit}>
+            <h3 className = "add-title">Add New Transaction</h3>
+            <form className = "add-form" onSubmit = {handleSubmit}>
                 <label>Name: <input type = "text" value = {name} onChange = {(e) => setName(e.target.value)} /></label>
+                <br/>
                 <label>Amount: <input type = "number" value = {amount} onChange = {(e) => setAmount(e.target.value)} /></label>
+                <br/>
                 <label>Category: <input type = "text" value = {category} onChange = {(e) => setCategory(e.target.value)} /></label>
+                <br/>
                 <label>Date: <input type = "datetime-local" value = {date} onChange = {(e) => setDate(e.target.value)} /></label>
+                <br/>
                 <label>Type: <input type = "text" value = {transactionType} onChange = {(e) => setTransactionType(e.target.value)} /></label>
+                <br/>
                 <label>Recurring: 
                     <input type = "checkbox" value = {recurring} onChange = {(e) => setRecurring(e.target.value)} id="yes"/>
                     <label for="yes">Yes</label>
