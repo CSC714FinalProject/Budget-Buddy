@@ -5,16 +5,15 @@ import { auth, db } from '../src/firebase';
 import { collection, doc, addDoc, deleteDoc, updateDoc, getDocs, query, where } from "firebase/firestore";
 import './home.css';
 import AddTransaction from '../components/AddTransaction';
-import {AiOutlinePieChart} from 'react-icons/ai'
-import EditTransaction from '../components/EditTransaction';
+import {AiOutlinePieChart} from 'react-icons/ai';
 
 
 function Home() {
     const [user, setUser] = useState({});
     const [username, setUsername] = useState("");
     const [showPopup, setShowPopup] = useState(false);
-    const [showEditPopup, setShowEditPopup] = useState(false);
     const [transactions, setTransactions] = useState([]);
+    const [editedTransaction, setEditedTransaction] = useState(null);
     const [numTransactions, setNumTransactions] = useState(0);
     const [total, setTotal] = useState(0);
 
@@ -101,38 +100,33 @@ function Home() {
       setNumTransactions((numTransactions) => numTransactions + 1);
     }
 
-    const handleEditTransaction = async (id, name, amount, transactionType, recurring, category, date) => {
-      const user = auth.currentUser;
-      const userId = user ? user.uid : null;
-
-      if (!userId) {
-        console.error("no user found");
-        return;
-      }
-
-      const oldTransaction = doc(db, "transactions", id);
-
-      await updateDoc(oldTransaction, {
-        name,
-        amount,
-        transactionType,
-        recurring,
-        category,
-        date,
-
-      });
-
-      setShowEditPopup(false);
-      setNumTransactions((numTransactions) => numTransactions);
-
-    }
-
+    
     const handleRemoveTransaction = async (id) => {
       console.log(id);
       await deleteDoc(doc(db, "transactions", id));
       setNumTransactions((numTransactions) => numTransactions - 1);
 
     }
+
+    const handleEditTransactionSubmit = async (name, amount, transactionType, recurring, category, date, id) => {
+      const transactionRef = doc(db, "transactions", id);
+      console.log(date);
+      console.log(name);
+      await updateDoc(transactionRef, {
+        name,
+        amount,
+        transactionType,
+        recurring,
+        category,
+        date,
+        id,
+      });
+    
+      setNumTransactions((numTransactions) => numTransactions + 1);
+      setShowPopup(false);
+      setEditedTransaction(null);
+    };
+
 
     
       return (
@@ -164,8 +158,7 @@ function Home() {
                       <span className="transaction-category">Category: {transaction.category}</span>
                       <span className="transaction-date">{transaction.date}</span>
                       <button className="delete-button" onClick={() => handleRemoveTransaction(transaction.id)}><img src="../images/garbagecan.png" width="35" height="35" /></button>
-                      <button className="edit-button" onClick={() => setShowEditPopup(true)}><img src="../images/pen.png" width="35" height="35" /></button>
-                      {showEditPopup && <EditTransaction onClose={() => setShowEditPopup(false)} onEdit={handleEditTransaction} transaction={transaction} />}
+                      <button className="edit-button" onClick={() => { setEditedTransaction(transaction); setShowPopup(true); }}><img src="../images/pen.png" width="35" height="35"/></button>
                     </li>
                     <script>
 
@@ -177,7 +170,7 @@ function Home() {
               </div>
             
             </div>
-            {showPopup && <AddTransaction onClose = {() => setShowPopup(false)} onSubmit = {handleAddTransaction} />}
+            {showPopup && (<AddTransaction onClose={() => {setShowPopup(false); setEditedTransaction(null);}} onSubmit={editedTransaction ? handleEditTransactionSubmit : handleAddTransaction} editedTransaction={editedTransaction} />)}
          </div>
         </body>
       )
