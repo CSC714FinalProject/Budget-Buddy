@@ -62,6 +62,22 @@ function Home() {
     }, [numTransactions])
 
     useEffect(() => {
+      const setCurrentBalance = () => {
+          let x = 0;
+          for (let i = 0; i < transactions.length; i ++) {
+            if(transactions[i].transactionType === "purchase") {
+                  x = x - parseFloat(transactions[i].amount);
+              }
+              else {
+                  x = x + parseFloat(transactions[i].amount);
+              }
+          }
+          setTotal(x);
+      }
+      setCurrentBalance();
+    }, [transactions])
+
+    useEffect(() => {
         const getUsername = async () => {
             const user = auth.currentUser;
             const userId = user ? user.uid : null;
@@ -141,7 +157,7 @@ function Home() {
                     <img className = "calendar-button-img" src="../images/calendar.png"/>
                     <h1 className = "current-balance">Current Balance: ${total}</h1>
                     <p className = "welcome">Welcome {username}</p>
-                    <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
+                    <Link to = "/login"><button className = {`${showPopup ? "blur" : "sign-out-button"}`} onClick = {logout}>Sign Out</button></Link>
                 </div>
 
               <div className = "transactions">

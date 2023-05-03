@@ -55,38 +55,6 @@ function Chart() {
           console.log("being used"); 
   
           setTransactions(transactionsData);
-
-          /*
-          let x = 0;
-          const categories = []
-          for (let i = 0; i < transactions.length; i ++) {
-            let exists = false;
-            if(transactions[i].transactionType === "purchase") {
-                //add categories to array of categories
-                if(categories.length === 0) {
-                    categories[0] = transactions[i].category;
-                    console.log(categories[0]);
-                }
-                else {
-                    for (let j = 0; j < categories.length; j++){
-                        if (categories[j] === transactions[i].category) {
-                            exists = true;
-                        }
-                    }
-                    if(!exists) { 
-                        categories[categories.length] = transactions[i].category;
-                        console.log(categories[categories.length-1]);
-                    }
-                }
-              x = x - parseFloat(transactions[i].amount);
-            }
-            else {
-              x = x + parseFloat(transactions[i].amount);
-            }
-          }
-          setTotal(x); 
-          setCategoryArr(categories);
-          console.log(categories); */
           
         }
         fetchTransactions();
@@ -95,10 +63,12 @@ function Chart() {
 
       useEffect(() => {
         const getCategories = () => {
+            let x = 0;
             const categories = []
               for (let i = 0; i < transactions.length; i ++) {
                 let exists = false;
                 if(transactions[i].transactionType === "purchase") {
+                    x = x - parseFloat(transactions[i].amount);
                     //add categories to array of categories
                     if(categories.length === 0) {
                         categories[0] = transactions[i].category;
@@ -115,7 +85,11 @@ function Chart() {
                     }
                     setCategoryArr(categories);
                 }
+                else {
+                    x = x + parseFloat(transactions[i].amount);
+                }
             }
+            setTotal(x);
         }
         getCategories();
       }, [transactions])
@@ -144,20 +118,6 @@ function Chart() {
         await signOut(auth);
     
     };
-
-    const getTotals = () => {
-        const t = [];
-        for (let i = 0; i < categoryArr.length; i++) {
-            t[i] = 0;
-            for (let j = 0; j < transactions.length; j++) {
-                if (categoryArr[i] === transactions[j].category) {
-                    t[i] += parseFloat(transactions[j].amount);
-                }
-            }
-        }
-        setTotals(t);
-        console.log(totals);
-    }
 
     //get data for pie chart
     useEffect (() => {

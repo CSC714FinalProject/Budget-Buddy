@@ -100,12 +100,14 @@ li {
     width: 792px;
     height: 98px;
     top: 270px;
+    padding: 15px;
+    margin-bottom: 30px;
     background: #149ECA;
     border-radius: 23px;
 }
 
 .transaction-item:hover {
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 
 .add-transaction-button {
