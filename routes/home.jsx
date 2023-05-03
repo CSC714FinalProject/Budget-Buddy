@@ -148,7 +148,7 @@ function Home() {
 
                 
 
-                <ul className = "transaction-list">
+                <ul className = "transaction-list"> 
                   {transactions.map((transaction, index) => ( 
                     
                     <>

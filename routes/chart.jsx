@@ -13,6 +13,7 @@ function Chart() {
     const [total, setTotal] = useState(0);
     const [categoryArr, setCategoryArr] = useState([]);
     const [totals, setTotals] = useState([]);
+    
 
     useEffect(() => {
         const stateChange = onAuthStateChanged(auth, (currentUser) => {
@@ -68,8 +69,8 @@ function Chart() {
                             exists = true;
                         }
                     }
-                    if(!exists) {
-                        categories[length+1] = transactions[i].category;
+                    if(!exists) { 
+                        categories[categories.length] = transactions[i].category;
                     }
                 }
               x = x - parseFloat(transactions[i].amount);
@@ -78,7 +79,7 @@ function Chart() {
               x = x + parseFloat(transactions[i].amount);
             }
           }
-          setTotal(x);
+          setTotal(x); 
           setCategoryArr(categories);
           console.log(categories);
           
@@ -118,6 +119,8 @@ function Chart() {
     
     console.log(data);
 
+
+
     return (
         <div>
         <div className="navbar">
@@ -125,19 +128,20 @@ function Chart() {
             <Link to="/chart"><img className = "pie-button-img" src="../images/pie-chart.png"/></Link> 
             <img className = "calendar-button-img" src="../images/calendar.png"/>
             <h1 className = "current-balance">Current Balance: ${total}</h1>
-            <p className = "welcome">Welcome {username} </p> 
+            <p className = "welcome">Welcome {username} </p>
             <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
         </div>
         <div className="chart-body">
-                <PieChart width={400} height={400}>
+                <PieChart width={1500} height={400}>
                     <Pie
                         dataKey="value"
                         isAnimationActive={true}
                         data={data}
                         cx="50%"
                         cy="50%"
-                        outerRadius={60}
-                        fill="#149ECA" 
+                        outerRadius={200}
+                        fill="#149ECA"
+                        label
                     />
                     <Tooltip />
                 </PieChart>
