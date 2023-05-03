@@ -29,7 +29,15 @@ function AddTransaction(props) {
         event.preventDefault();
         console.log(date);
 
-        props.onSubmit(name, amount, transactionType, recurring, category, date);
+        if (props.editedTransaction != null) {
+
+            props.onSubmit(name, amount, transactionType, recurring, category, date, props.editedTransaction.id);
+
+        }
+
+        else {
+            props.onSubmit(name, amount, transactionType, recurring, category, date);
+        }
 
 
     }
