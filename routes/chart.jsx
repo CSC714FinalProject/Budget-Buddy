@@ -13,6 +13,7 @@ function Chart() {
     const [total, setTotal] = useState(0);
     const [categoryArr, setCategoryArr] = useState([]);
     const [totals, setTotals] = useState([]);
+    const [data, setData] = useState([]);
     
 
     useEffect(() => {
@@ -54,6 +55,8 @@ function Chart() {
           console.log("being used"); 
   
           setTransactions(transactionsData);
+
+          /*
           let x = 0;
           const categories = []
           for (let i = 0; i < transactions.length; i ++) {
@@ -62,6 +65,7 @@ function Chart() {
                 //add categories to array of categories
                 if(categories.length === 0) {
                     categories[0] = transactions[i].category;
+                    console.log(categories[0]);
                 }
                 else {
                     for (let j = 0; j < categories.length; j++){
@@ -71,6 +75,7 @@ function Chart() {
                     }
                     if(!exists) { 
                         categories[categories.length] = transactions[i].category;
+                        console.log(categories[categories.length-1]);
                     }
                 }
               x = x - parseFloat(transactions[i].amount);
@@ -81,12 +86,39 @@ function Chart() {
           }
           setTotal(x); 
           setCategoryArr(categories);
-          console.log(categories);
+          console.log(categories); */
           
         }
         fetchTransactions();
   
       }, [])
+
+      useEffect(() => {
+        const getCategories = () => {
+            const categories = []
+              for (let i = 0; i < transactions.length; i ++) {
+                let exists = false;
+                if(transactions[i].transactionType === "purchase") {
+                    //add categories to array of categories
+                    if(categories.length === 0) {
+                        categories[0] = transactions[i].category;
+                    }
+                    else {
+                        for (let j = 0; j < categories.length; j++){
+                            if (categories[j] === transactions[i].category) {
+                                exists = true;
+                            }
+                        }
+                        if(!exists) { 
+                            categories[categories.length] = transactions[i].category;
+                        }
+                    }
+                    setCategoryArr(categories);
+                }
+            }
+        }
+        getCategories();
+      }, [transactions])
 
       useEffect(() => {
         const getTotals = () => {
@@ -105,21 +137,42 @@ function Chart() {
 
         getTotals();
 
-      }, [transactions])
+      }, [categoryArr])
+
 
     const logout = async () => {
         await signOut(auth);
     
     };
 
-    const data = []
-    categoryArr.map((category, index) => (
-        data[index] = {name: category, value: totals[index]}
-    ))
+    const getTotals = () => {
+        const t = [];
+        for (let i = 0; i < categoryArr.length; i++) {
+            t[i] = 0;
+            for (let j = 0; j < transactions.length; j++) {
+                if (categoryArr[i] === transactions[j].category) {
+                    t[i] += parseFloat(transactions[j].amount);
+                }
+            }
+        }
+        setTotals(t);
+        console.log(totals);
+    }
+
+    //get data for pie chart
+    useEffect (() => {
+        const updateData = () => {
+            const d = []
+            categoryArr.map((category, index) => (
+                d[index] = {name: category, value: totals[index]}
+            ))
+            setData(d); 
+            console.log(data);
+        }
+        updateData();
+    }, [totals]) 
     
-    console.log(data);
-
-
+    
 
     return (
         <div>
@@ -132,6 +185,7 @@ function Chart() {
             <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
         </div>
         <div className="chart-body">
+            { totals && categoryArr &&
                 <PieChart width={1500} height={400}>
                     <Pie
                         dataKey="value"
@@ -145,6 +199,7 @@ function Chart() {
                     />
                     <Tooltip />
                 </PieChart>
+            }
         </div>
         </div>
     )

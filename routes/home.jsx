@@ -52,7 +52,9 @@ function Home() {
           }
         }
         setTotal(x);
+      
         console.log(total);
+        
         
       }
       fetchTransactions();
