@@ -8,7 +8,8 @@ import { auth } from './firebase';
 import Home from '../routes/home';
 import Signup from '../routes/signup';
 import Login from '../routes/login';
-import Chart from '../routes/chart'
+import Chart from '../routes/chart';
+import CalendarPage from '../routes/calendarPage';
 
 
 
@@ -37,6 +38,11 @@ function App() {
     {
       path: "/chart",
       element: <Chart />
+    },
+
+    {
+      path: "/calendar",
+      element: <CalendarPage />
     }
   ]);
 

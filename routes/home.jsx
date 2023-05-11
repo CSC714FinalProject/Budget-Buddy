@@ -154,7 +154,7 @@ function Home() {
                 <div className="navbar">
                     <img  className = "home-button-img" src= "../images/BudgetBuddy-logos_transparent.png" alt="error"/>
                     <Link to="/chart"><img className = "pie-button-img" src="../images/pie-chart.png"/></Link> 
-                    <img className = "calendar-button-img" src="../images/calendar.png"/>
+                    <Link to="/calendar"><img className = "calendar-button-img" src="../images/calendar.png"/></Link>
                     <h1 className = "current-balance">Current Balance: ${total}</h1>
                     <p className = "welcome">Welcome {username}</p>
                     <Link to = "/login"><button className = {`${showPopup ? "blur" : "sign-out-button"}`} onClick = {logout}>Sign Out</button></Link>

@@ -1,26 +1,25 @@
+import React from 'react'
+import './calendarPage.css'
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { Link } from 'react-router-dom';
 import { auth, db } from '../src/firebase';
 import { collection, doc, addDoc, deleteDoc, updateDoc, getDocs, query, where } from "firebase/firestore";
-import './chart.css';
-import { PieChart, Pie, ResponsiveContainer, Tooltip} from 'recharts';
+import Calendar from 'react-calendar';
 
-function Chart() {
+function CalendarPage() {
+
     const [user, setUser] = useState({});
     const [username, setUsername] = useState("");
     const [transactions, setTransactions] = useState([]);
     const [total, setTotal] = useState(0);
-    const [categoryArr, setCategoryArr] = useState([]);
-    const [totals, setTotals] = useState([]);
-    const [data, setData] = useState([]);
-    
+    const [date, setDate] = useState(new Date());
 
     useEffect(() => {
         const stateChange = onAuthStateChanged(auth, (currentUser) => {
-          setUser(currentUser);
+            setUser(currentUser);
         });
-    
+
         return () => stateChange();
     }, []);
 
@@ -35,8 +34,13 @@ function Chart() {
             setUsername(userData[0].username);
         }
         getUsername();
-        
+    
     }, [])
+
+    const logout = async () => {
+        await signOut(auth);
+    
+    };
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -55,35 +59,31 @@ function Chart() {
           console.log("being used"); 
   
           setTransactions(transactionsData);
+          let x = 0;
+          for (let i = 0; i < transactions.length; i ++) {
+            if(transactions[i].transactionType === "purchase") {
+              x = x - parseInt(transactions[i].amount);
+            }
+            else {
+              x = x + parseInt(transactions[i].amount);
+            }
+          }
+          setTotal(x);
+        
+          console.log(total);
+          
           
         }
         fetchTransactions();
   
       }, [])
-
+  
       useEffect(() => {
-        const getCategories = () => {
+        const setCurrentBalance = () => {
             let x = 0;
-            const categories = []
-              for (let i = 0; i < transactions.length; i ++) {
-                let exists = false;
-                if(transactions[i].transactionType === "purchase") {
+            for (let i = 0; i < transactions.length; i ++) {
+              if(transactions[i].transactionType === "purchase") {
                     x = x - parseFloat(transactions[i].amount);
-                    //add categories to array of categories
-                    if(categories.length === 0) {
-                        categories[0] = transactions[i].category;
-                    }
-                    else {
-                        for (let j = 0; j < categories.length; j++){
-                            if (categories[j] === transactions[i].category) {
-                                exists = true;
-                            }
-                        }
-                        if(!exists) { 
-                            categories[categories.length] = transactions[i].category;
-                        }
-                    }
-                    setCategoryArr(categories);
                 }
                 else {
                     x = x + parseFloat(transactions[i].amount);
@@ -91,51 +91,11 @@ function Chart() {
             }
             setTotal(x);
         }
-        getCategories();
+        setCurrentBalance();
       }, [transactions])
 
-      useEffect(() => {
-        const getTotals = () => {
-            const t = [];
-            for (let i = 0; i < categoryArr.length; i++) {
-                t[i] = 0;
-                for (let j = 0; j < transactions.length; j++) {
-                    if (categoryArr[i] === transactions[j].category) {
-                        t[i] += parseFloat(transactions[j].amount);
-                    }
-                }
-            }
-            setTotals(t);
-            console.log(totals);
-        }
-
-        getTotals();
-
-      }, [categoryArr])
-
-
-    const logout = async () => {
-        await signOut(auth);
-    
-    };
-
-    //get data for pie chart
-    useEffect (() => {
-        const updateData = () => {
-            const d = []
-            categoryArr.map((category, index) => (
-                d[index] = {name: category, value: totals[index]}
-            ))
-            setData(d); 
-            console.log(data);
-        }
-        updateData();
-    }, [totals]) 
-    
-    
-
-    return (
-        <div>
+  return (
+    <div>
         <div className="navbar">
             <Link to="/home"><img  className = "home-button-img" src= "../images/BudgetBuddy-logos_transparent.png" alt="error"/></Link>
             <Link to="/chart"><img className = "pie-button-img" src="../images/pie-chart.png"/></Link> 
@@ -144,25 +104,11 @@ function Chart() {
             <p className = "welcome">Welcome {username} </p>
             <Link to = "/login"><button className = "sign-out-button" onClick = {logout}>Sign Out</button></Link>
         </div>
-        <div className="chart-body">
-            { totals && categoryArr &&
-                <PieChart width={1500} height={400}>
-                    <Pie
-                        dataKey="value"
-                        isAnimationActive={true}
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={200}
-                        fill="#149ECA"
-                        label
-                    />
-                    <Tooltip />
-                </PieChart>
-            }
+        <div className="calendar-container">
+            <Calendar onChange={setDate} value={date} />
         </div>
-        </div>
-    )
+    </div>
+  )
 }
 
-export default Chart;
+export default CalendarPage
