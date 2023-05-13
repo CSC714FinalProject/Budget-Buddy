@@ -1,5 +1,7 @@
 import React from 'react';
+
 import './TransactionsList.css';
+
 
 function TransactionsList({ date, transactions, onClose }) {
     const filteredTransactions = transactions.filter(transaction => {
