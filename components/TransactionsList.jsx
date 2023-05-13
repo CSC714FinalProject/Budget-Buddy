@@ -18,7 +18,8 @@ function TransactionsList({ date, transactions, onClose }) {
             <div className="transaction-list">
               {filteredTransactions.map((filteredTransaction) => (
                 <div key={filteredTransaction.id} className="transaction">
-                  <p>{filteredTransaction.name}</p>
+                  <p>{filteredTransaction.name} - ${filteredTransaction.amount}</p>
+
                 </div>
               ))}
             </div>
