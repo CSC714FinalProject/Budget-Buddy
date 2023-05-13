@@ -57,10 +57,7 @@ function AddTransaction(props) {
                 <br/>
                 <label>Type: <input type = "text" value = {transactionType} onChange = {(e) => setTransactionType(e.target.value)} /></label>
                 <br/>
-                <label>Recurring: 
-                    <input type = "checkbox" value = {recurring} onChange = {(e) => setRecurring(e.target.value)} id="yes"/>
-                    <label for="yes">Yes</label>
-                </label>
+                <label className = "recurring">Recurring: <input type = "checkbox" value = {recurring} onChange = {(e) => setRecurring(e.target.value)} id="yes"/></label>
                 <br></br>
                 {props.editedTransaction ? <button type = "submit">Save</button> : <button type = "submit">Add</button>}
                 <button onClick = {props.onClose}>Cancel</button>
