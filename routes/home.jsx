@@ -42,18 +42,7 @@ function Home() {
         console.log("being used"); 
 
         setTransactions(transactionsData);
-        let x = 0;
-        for (let i = 0; i < transactions.length; i ++) {
-          if(transactions[i].transactionType === "purchase") {
-            x = x - parseInt(transactions[i].amount);
-          }
-          else {
-            x = x + parseInt(transactions[i].amount);
-          }
-        }
-        setTotal(x);
-      
-        console.log(total);
+        
         
         
       }
