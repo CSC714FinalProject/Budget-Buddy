@@ -60,7 +60,7 @@ function CalendarPage() {
         const querySnapshot = await getDocs(userTransactions);
         const transactionsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       
-        console.log(transactionsData); // add this line to check the data
+        console.log(transactionsData); 
       
         const filteredTransactions = transactionsData.filter(transaction => {
           const transactionDate = new Date(transaction.date);
